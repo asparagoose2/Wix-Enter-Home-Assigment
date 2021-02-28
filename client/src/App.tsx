@@ -1,40 +1,66 @@
 import React from 'react';
 import './App.scss';
 import {createApiClient, Ticket} from './api';
+import { parseConfigFileTextToJson } from 'typescript';
 
 export type AppState = {
 	tickets?: Ticket[],
-	search: string;
+	search: string,
+	fontsize: number;
 }
+
+var FontSize = {"SMALL": 14,"NORMAL": 16,"LARGE": 18}
 
 const api = createApiClient();
 
-export class App extends React.PureComponent<{}, AppState> {
 
+export class App extends React.PureComponent<{}, AppState> {
 	state: AppState = {
-		search: ''
+		search: '',
+		fontsize: FontSize.NORMAL
+	}
+	
+	flipPin = (id: string) => {
+		this.setState({
+			tickets: this.state.tickets!.map((tkt) => { if(tkt.id == id) {tkt.isPinned = !tkt.isPinned;} return tkt;})
+		})
+	}
+
+	setFontSize = (size: number) => {
+		this.setState({
+			fontsize: size
+		})
 	}
 
 	searchDebounce: any = null;
 
 	async componentDidMount() {
 		this.setState({
-			tickets: await api.getTickets()
+			tickets: await (await api.getTickets()).map((tkt: Ticket) => {tkt.isPinned = false; return tkt})
 		});
 	}
 
 	renderTickets = (tickets: Ticket[]) => {
-
 		const filteredTickets = tickets
 			.filter((t) => (t.title.toLowerCase() + t.content.toLowerCase()).includes(this.state.search.toLowerCase()));
 
 
 		return (<ul className='tickets'>
-			{filteredTickets.map((ticket) => (<li key={ticket.id} className='ticket'>
-				<h5 className='title'>{ticket.title}</h5>
-				<p className='content'>{ticket.content}</p>
+			{filteredTickets.filter((t) => (t.isPinned)).map((ticket) => (<li key={ticket.id} className='ticket'>
+				<h5 className='title' style={{fontSize : this.state.fontsize}} >{ticket.title}</h5>
+				<p className='contentHide'style={{fontSize : this.state.fontsize -2}}>{ticket.content}</p>
 				<footer>
 					<div className='meta-data'>By {ticket.userEmail} | { new Date(ticket.creationTime).toLocaleString()}</div>
+					<button onClick={(e: React.MouseEvent) => {this.flipPin(ticket.id)}} type="button">Unpin</button>
+				</footer>
+			</li>))}
+			{filteredTickets.filter((t) => (!t.isPinned)).map((ticket) => (<li id={ticket.id} key={ticket.id} className='ticket'>
+				<h5 className='title' style={{fontSize : this.state.fontsize}}>{ticket.title}</h5>
+				<p className='contentHide' style={{fontSize : this.state.fontsize-2}}>{ticket.content}</p>
+				<footer>
+					<div className='meta-data'>By {ticket.userEmail} | { new Date(ticket.creationTime).toLocaleString()}</div>
+					<button onClick={(e: React.MouseEvent) => {this.flipPin(ticket.id)}} type="button">Pin</button>
+					<button onClick={(e: React.MouseEvent) => {document.getElementById(ticket.id)!.classList.add("contentShow"); document.getElementById(ticket.id)!.classList.remove("contentHide")}} type="button">Show More</button>
 				</footer>
 			</li>))}
 		</ul>);
@@ -55,11 +81,14 @@ export class App extends React.PureComponent<{}, AppState> {
 		const {tickets} = this.state;
 
 		return (<main>
+			
 			<h1>Tickets List</h1>
 			<header>
 				<input type="search" placeholder="Search..." onChange={(e) => this.onSearch(e.target.value)}/>
 			</header>
-			{tickets ? <div className='results'>Showing {tickets.length} results</div> : null }	
+			{tickets ? <div className='results'>Showing {tickets.length} results</div> : null }	<button onClick={(e: React.MouseEvent) => {this.setFontSize(FontSize.SMALL)}} type="button">small font</button>
+			<button onClick={(e: React.MouseEvent) => {this.setFontSize(FontSize.NORMAL)}} type="button">normal font</button>
+			<button onClick={(e: React.MouseEvent) => {this.setFontSize(FontSize.LARGE)}} type="button">large font</button><div><br></br></div>
 			{tickets ? this.renderTickets(tickets) : <h2>Loading..</h2>}
 		</main>)
 	}

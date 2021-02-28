@@ -68,6 +68,7 @@ body {
 			width: 100%;
 			flex-shrink: 0;
 			border-radius: 8px;
+			font-size: 16px;
 			background-color: #fff;
 			box-shadow: 0 2px 6px 1px #e1e5e8;
 			margin-bottom: 14px;
@@ -84,7 +85,25 @@ body {
 
 			.title {
 				margin: 15px 0;
-				font-size: 16px;
+				// font-size: 16px;
+				font-weight: 600;
+				font-style: normal;
+				color: #20455e;
+			}
+
+			.contentShow {
+				margin: 15px 0;
+				font-weight: 400;
+				line-height: 1em;
+				font-style: normal;
+				color: #20455e;
+			}
+
+			.contentHide {
+				margin: 15px 0;
+				overflow: hidden;
+    			line-height: 1em;
+    			height: 3em;
 				font-weight: 400;
 				font-style: normal;
 				color: #20455e;
