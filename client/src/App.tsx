@@ -13,6 +13,27 @@ var FontSize = {"SMALL": 14,"NORMAL": 16,"LARGE": 18}
 
 const api = createApiClient();
 
+const showHide = (id: string) => {
+
+	var x = document.getElementById(id);
+	var text = x!.querySelector(".show-more")!.textContent!.toUpperCase();
+
+	if(text === "SHOW MORE")
+	{
+		text = "Show Less";
+		let cont = x!.querySelector(".contentHide")
+		cont!.classList.add("contentShow");
+		cont!.classList.remove("contentHide");
+	} else {
+		text = "Show Less";
+		let cont = x!.querySelector(".contentShow")
+		cont!.classList.add("contentHide");
+		cont!.classList.remove("contentShow");
+	}
+	x!.querySelector(".show-more")!.textContent! = text;
+
+}
+
 
 export class App extends React.PureComponent<{}, AppState> {
 	state: AppState = {
@@ -46,9 +67,9 @@ export class App extends React.PureComponent<{}, AppState> {
 
 
 		return (<ul className='tickets'>
-			{filteredTickets.filter((t) => (t.isPinned)).map((ticket) => (<li key={ticket.id} className='ticket'>
+			{filteredTickets.filter((t) => (t.isPinned)).map((ticket) => (<li id={ticket.id}  className='ticket'>
 				<h5 className='title' style={{fontSize : this.state.fontsize}} >{ticket.title}</h5>
-				<p className='contentHide'style={{fontSize : this.state.fontsize -2}}>{ticket.content}</p>
+				<p className='contentHide' style={{fontSize : this.state.fontsize -2}}>{ticket.content}</p>
 				<footer>
 					<div className='meta-data'>By {ticket.userEmail} | { new Date(ticket.creationTime).toLocaleString()}</div>
 					<button onClick={(e: React.MouseEvent) => {this.flipPin(ticket.id)}} type="button">Unpin</button>
@@ -56,11 +77,12 @@ export class App extends React.PureComponent<{}, AppState> {
 			</li>))}
 			{filteredTickets.filter((t) => (!t.isPinned)).map((ticket) => (<li id={ticket.id} key={ticket.id} className='ticket'>
 				<h5 className='title' style={{fontSize : this.state.fontsize}}>{ticket.title}</h5>
-				<p className='contentHide' style={{fontSize : this.state.fontsize-2}}>{ticket.content}</p>
+				<p className='contentHide'  style={{fontSize : this.state.fontsize-2}}>{ticket.content}</p>
+				{/* <a href="#" className="show-more" onClick={(e: React.MouseEvent) => {document.getElementById(ticket.id)!.classList.add("contentShow"); document.getElementById(ticket.id)!.classList.remove("contentHide")}}>Show more</a> */}
+				<a href="#" className="show-more" onClick={(e: React.MouseEvent) => {showHide(ticket.id)}}>Show more</a>
 				<footer>
-					<div className='meta-data'>By {ticket.userEmail} | { new Date(ticket.creationTime).toLocaleString()}</div>
+					<div className='meta-data'>By {ticket.userEmail} | { new Date(ticket.creationTime).toLocaleString()}</div> 
 					<button onClick={(e: React.MouseEvent) => {this.flipPin(ticket.id)}} type="button">Pin</button>
-					<button onClick={(e: React.MouseEvent) => {document.getElementById(ticket.id)!.classList.add("contentShow"); document.getElementById(ticket.id)!.classList.remove("contentHide")}} type="button">Show More</button>
 				</footer>
 			</li>))}
 		</ul>);
