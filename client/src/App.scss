@@ -337,17 +337,29 @@ body {
 	}
 }
 
-#nextPage{
-	float: right;
-}
-#pageCount{
-	text-align: center;
-	display: block;
-	margin-left: auto;
-    margin-right: auto;
-	width: 10%;
+// #nextPage{
+// 	float: right;
+// 	top: 0px;
+// }
+// #pageCount{
+// 	text-align: center;
+// 	display: block;
+// 	margin-left: auto;
+//     margin-right: auto;
+// 	float: right;
+// }
 
-}
+.column {
+	float: left;
+	width: 33.33%;
+  }
+  
+  /* Clear floats after the columns */
+  .row:after {
+	content: "";
+	display: table;
+	clear: both;
+  }
 
 .dark-mode-lable{
 	position: absolute;

@@ -273,10 +273,20 @@ export class App extends React.PureComponent<{}, AppState> {
 			<button className="font-button" id="fontNormal"  onClick={(e: React.MouseEvent) => {this.setFontSize(FontSize.NORMAL)}} type="button">Normal Font</button>
 			<button className="font-button" id="fontLarge"  onClick={(e: React.MouseEvent) => {this.setFontSize(FontSize.LARGE)}}  type="button">Large Font</button><div><br></br></div>
 			{tickets ? this.renderTickets(tickets) : <h2>Loading..</h2>}
-			<button className="navButton" id="prevPage"  onClick={(e: React.MouseEvent) => {this.prevPage()}}  type="button">Previous Page</button>
-			<div id="pageCount"><label>{this.state.currentPage}/{this.state.totalPages}</label></div>
-			<button className="navButton" id="nextPage" onClick={(e: React.MouseEvent) => {this.nextPage()}}  type="button">Next Page</button>
 
+			<div className="row">
+				<div className="column">			
+					<button className="navButton" id="prevPage"  onClick={(e: React.MouseEvent) => {this.prevPage()}}  type="button">Previous Page</button>
+				</div>
+				<div className="column">
+					<div id="pageCount"><p>{this.state.currentPage}/{this.state.totalPages}</p></div>
+				</div>
+				<div className="column">
+					<button className="navButton" id="nextPage" onClick={(e: React.MouseEvent) => {this.nextPage()}}  type="button">Next Page</button>
+				</div>
+			</div>
+
+			{/* <button className="navButton" id="prevPage"  onClick={(e: React.MouseEvent) => {this.prevPage()}}  type="button">Previous Page</button> */}
 		</main>)
 	}
 }
