@@ -63,10 +63,19 @@ body {
 		background: transparent;
 		outline:none;
 	}
+	button:focus{
+		border: transparent;
+		outline:none;
+	}
 	button:disabled{
 		cursor: default;
 		font-weight: bold;
 		color: black;
+	}
+	.navButton:disabled
+	{
+		font-weight: normal;
+		color: #8b9ca5;
 	}
 
 	a {
@@ -328,8 +337,17 @@ body {
 	}
 }
 
+#nextPage{
+	float: right;
+}
+#pageCount{
+	text-align: center;
+	display: block;
+	margin-left: auto;
+    margin-right: auto;
+	width: 10%;
 
-
+}
 
 .dark-mode-lable{
 	position: absolute;

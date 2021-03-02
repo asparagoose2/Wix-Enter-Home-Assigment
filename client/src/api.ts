@@ -12,13 +12,35 @@ export type Ticket = {
 }
 
 export type ApiClient = {
-    getTickets: () => Promise<Ticket[]>;
+    getTickets: (page?: Number) => Promise<Ticket[]>;
+    totalTickets: () => Promise<number>;
+}
+
+interface ServerData {
+    page: number
 }
 
 export const createApiClient = (): ApiClient => {
     return {
-        getTickets: () => {
-            return axios.get(APIRootPath).then((res) => res.data);
+        getTickets: (p?) => {
+            return axios.get(APIRootPath,{
+                params:{page:p}
+            }).then((res) => res.data["tickets"]);
+        },
+        totalTickets: () => {
+            return axios.get(APIRootPath).then((res) => res.data["len"]);
         }
     }
 }
+
+
+// export const nextPage = () :ApiClient => {
+
+//     axios.request
+
+//     return {
+//         getTickets: () => {
+//             return axios.get(APIRootPath,).then((res) => res.data);
+//         }
+//     }
+// }
