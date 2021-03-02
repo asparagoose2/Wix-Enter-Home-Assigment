@@ -1,3 +1,3 @@
 examKey=12
 createdAt=2/27/2021
-candidateEmail=yours@email.com
+candidateEmail=ofir.duchovne@gmail.com
