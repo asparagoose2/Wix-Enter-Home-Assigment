@@ -2,6 +2,7 @@ import React from 'react';
 import './App.scss';
 import {createApiClient, Ticket} from './api';
 import { parseConfigFileTextToJson } from 'typescript';
+import { Hidden } from '@material-ui/core';
 
 export type AppState = {
 	tickets?: Ticket[],
@@ -62,6 +63,62 @@ const showHide = (id: string) => {
 // 	return <h1>Hello, {isPinned}</h1>;
 //   }
 
+function checkOverflow(id: string)
+{
+	// let eleme = document.getElementsByClassName("contentHide") as HTMLCollectionOf<HTMLElement>;
+	let el = document.getElementById(id) as HTMLElement;
+	// el
+
+	if(document.body.contains(el))
+	{
+		// console.log("hi");
+		var curOverflow = el.style.overflow;
+
+		if ( !curOverflow || curOverflow === "visible" )
+			el.style.overflow = "hidden";
+
+		var isOverflowing = el.clientWidth < el.scrollWidth 
+			|| el.clientHeight < el.scrollHeight;
+
+		el.style.overflow = curOverflow;
+
+		return isOverflowing;
+	}
+}
+
+// function checkOverflow(el: HTMLElement)
+// {
+// 	if(document.body.contains(el))
+// 	{
+// 		console.log("hi");
+// 		var curOverflow = el.style.overflow;
+
+// 		if ( !curOverflow || curOverflow === "visible" )
+// 			el.style.overflow = "hidden";
+
+// 		var isOverflowing = el.clientWidth < el.scrollWidth 
+// 			|| el.clientHeight < el.scrollHeight;
+
+// 		el.style.overflow = curOverflow;
+
+// 		return isOverflowing;
+// 	}
+// }
+
+function showMoreOverflowCheck()
+{
+	let Elements = document.getElementsByClassName("contentHide") as HTMLCollectionOf<HTMLElement>;
+
+	for(let i = 0; i < Elements.length; i++)
+	{
+		if(!checkOverflow(Elements[i].id))
+		{
+			document.getElementById(Elements[i].id+"show")!.style.visibility="hidden";
+
+		}	
+	}
+}
+
 
 
 
@@ -117,13 +174,13 @@ export class App extends React.PureComponent<{}, AppState> {
 			tickets: await (await api.getTickets()).map((tkt: Ticket) => {tkt.isPinned = false; return tkt})
 		});
 		this.setFontSize(this.state.fontsize);
+		showMoreOverflowCheck();
 	}
 
 	renderTickets = (tickets: Ticket[]) => {
 		const filteredTickets = tickets
 			.filter((t) => (t.title.toLowerCase() + t.content.toLowerCase()).includes(this.state.search.toLowerCase()));
 
-		
 		
 		return (<ul className='tickets'>
 			{filteredTickets.filter((t) => (t.isPinned)).map((ticket) => (<li key={ticket.id} id={ticket.id}  className='ticket'>
@@ -139,9 +196,9 @@ export class App extends React.PureComponent<{}, AppState> {
 			</li>))}
 			{filteredTickets.filter((t) => (!t.isPinned)).map((ticket) => (<li key={ticket.id} id={ticket.id} className='ticket'>
 				<h5 className='title' style={{fontSize : this.state.fontsize}}>{ticket.title}</h5>
-				<p className='contentHide'  style={{fontSize : this.state.fontsize-2}}>{ticket.content}</p>
+				<p className='contentHide' id={ticket.id+"content"}  style={{fontSize : this.state.fontsize-2}}>{ticket.content}</p>
 				{/* <a href="#" className="show-more" onClick={(e: React.MouseEvent) => {document.getElementById(ticket.id)!.classList.add("contentShow"); document.getElementById(ticket.id)!.classList.remove("contentHide")}}>Show more</a> */}
-				<a href="#" className="show-more" style={{fontSize : this.state.fontsize-2}} onClick={(e: React.MouseEvent) => {showHide(ticket.id)}}>Show more</a>
+				<a href="#" id={ticket.id+"contentshow"} className="show-more" style={{fontSize : this.state.fontsize-2}} onClick={(e: React.MouseEvent) => {showHide(ticket.id)}}>Show more</a>
 				<footer>
 					<div className='meta-data'style={{fontSize : this.state.fontsize - 4}}>By {ticket.userEmail} | { new Date(ticket.creationTime).toLocaleString()}</div> 
 					<a href="#" className="pinButton" onClick={(e: React.MouseEvent) => {this.flipPin(ticket.id)}}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi-pin-angle" viewBox="0 0 16 16">
