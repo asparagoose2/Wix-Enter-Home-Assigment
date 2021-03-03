@@ -16,6 +16,12 @@ body {
 		// width: 20%;
 	}
 
+	h5 {
+		display: inline-block;
+		float: left;
+		// position: absolute;
+	}
+
 	.results {
 		color: #7a92a5;
 		font-size: 12px;
@@ -57,6 +63,8 @@ body {
 		border: transparent;
 		background: transparent;
 		cursor: pointer;
+
+		
 	}
 	button:active{
 		border: transparent;
@@ -78,6 +86,83 @@ body {
 		color: #8b9ca5;
 	}
 
+	// .clone {
+	// 	display:inline-block;
+	// 	padding:0.2em 1em;
+	// 	// border:0.10em solid #000000;
+	// 	margin:.8em 0.3em 0.3em 0;
+	// 	box-sizing: border-box;
+	// 	text-decoration:none;
+	// 	// text-transform:uppercase;
+	// 	font-family:'Roboto',sans-serif;
+	// 	font-weight:400;
+	// 	color:#000000;
+	// 	text-align:center;
+	// 	transition: all 0.15s;
+	// 	}
+	// .clone:hover{
+	// 	color: #a0a0a0;
+	// }
+	.tooltip {
+		position: relative;
+		display: inline-block;
+		float: right;
+	  }
+
+	  .tooltip .tooltiptext {
+		visibility: hidden;
+		top: -5px;
+  		right: 105%;
+		background-color: black;
+		color: #fff;
+		text-align: center;
+		border-radius: 6px;
+		padding: 3px 0;
+		width: 50px;
+  		// bottom: 100%;
+  		// left: 50%;
+		font-size: 12px;
+  		margin-left: -30px; /* Use half of the width (120/2 = 60), to center the tooltip */
+		margin-top: 18px;
+	  
+		/* Position the tooltip */
+		position: absolute;
+		z-index: 1;
+	  }
+	  .tooltip:hover .tooltiptext {
+		visibility: visible;
+	  }
+	.tooltippin {
+		position: relative;
+		display: inline-block;
+		float: right;
+	  }
+
+	  .tooltippin .tooltiptextpin {
+		visibility: hidden;
+		top: -5px;
+  		right: 150%;
+		background-color: black;
+		color: #fff;
+		text-align: center;
+		border-radius: 6px;
+		padding: 3px 0;
+		width: 50px;
+  		// bottom: 100%;
+  		// left: 50%;
+		font-size: 12px;
+  		margin-left: -30px; /* Use half of the width (120/2 = 60), to center the tooltip */
+		margin-top: 2px;
+	  
+		/* Position the tooltip */
+		position: absolute;
+		z-index: 1;
+	  }
+	  .tooltippin:hover .tooltiptextpin {
+		visibility: visible;
+	  }
+
+	
 	a {
 		color: #3899ec;
 		cursor: pointer;
@@ -349,16 +434,29 @@ body {
 // 	float: right;
 // }
 
+
+
+
+
+
+
+.nav{
+	list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .column {
-	float: left;
-	width: 33.33%;
+	margin: auto;
   }
-  
-  /* Clear floats after the columns */
-  .row:after {
-	content: "";
-	display: table;
-	clear: both;
+
+.clone {
+	list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+	float: right;
+	margin-top: 18px;
   }
 
 .dark-mode-lable{

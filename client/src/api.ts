@@ -1,5 +1,7 @@
 import axios from 'axios';
 import {APIRootPath} from '@fed-exam/config';
+const { v4: uuidv4 } = require('uuid');
+
 
 export type Ticket = {
     id: string,
@@ -16,9 +18,11 @@ export type ApiClient = {
     totalTickets: () => Promise<number>;
 }
 
-interface ServerData {
-    page: number
-}
+export const cloneTicket = (ticket: Ticket) => {
+    var newTicket = Object.assign({},ticket);
+    newTicket.id = uuidv4();
+    return newTicket;
+} 
 
 export const createApiClient = (): ApiClient => {
     return {
