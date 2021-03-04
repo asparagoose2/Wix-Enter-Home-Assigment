@@ -1,6 +1,5 @@
 import axios from 'axios';
 import {APIRootPath} from '@fed-exam/config';
-const { v4: uuidv4 } = require('uuid');
 
 
 export type Ticket = {

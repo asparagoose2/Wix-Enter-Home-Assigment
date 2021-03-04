@@ -1,6 +1,5 @@
 import React from "react";
 import { Ticket } from "../api";
-import { AppState } from "../App";
 import { CloneComponent } from "./clone";
 import { PinComponent } from "./pin";
 import { UnPinComponent } from "./unpin.tsk";
@@ -14,10 +13,6 @@ export type TicketComponentProps = {
 }
 
 export class TicketComponent extends React.Component<TicketComponentProps> {
-	constructor (props: TicketComponentProps) {
-		super(props);
-	}
-
 	render() {
 		return (
 		<><nav>
@@ -25,7 +20,7 @@ export class TicketComponent extends React.Component<TicketComponentProps> {
 				<div className="tooltip"><span className="tooltiptext">Clone</span><button className="clone" onClick={() => this.props.clone(this.props.ticket.id)}><CloneComponent /></button></div></nav><p className='contentHide' id={this.props.ticket.id + "content"} style={{ fontSize: this.props.fontsize - 2 }}>{this.props.ticket.content}</p><a href="#/" id={this.props.ticket.id + "contentshow"} className="show-more" style={{ fontSize: this.props.fontsize - 2 }} onClick={(e: React.MouseEvent) => { this.props.showHide(this.props.ticket.id); } }>Show more</a>
 				<footer>
 					<div className='meta-data' style={{ fontSize: this.props.fontsize - 4 }}>
-						By <a href={"mailto:" + this.props.ticket.userEmail + "?subject=Answer from Wix" + "&body=We read the message you left us titled:\" " + this.props.ticket.title + "\""}>{this.props.ticket.userEmail}</a> | {new Date(this.props.ticket.creationTime).toLocaleString()}
+						By <a href={"mailto:" + this.props.ticket.userEmail + "?subject=Answer from Wix&body=We read the message you left us titled:\" " + this.props.ticket.title + "\""}>{this.props.ticket.userEmail}</a> | {new Date(this.props.ticket.creationTime).toLocaleString()}
 					</div>
 					<div className="tooltippin">
 						<span className="tooltiptextpin">Pin</span>
