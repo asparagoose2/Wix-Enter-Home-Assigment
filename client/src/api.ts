@@ -19,7 +19,7 @@ export type ApiClient = {
     numOfPages: () => Promise<number>;
 }
 
-export const cloneTicket = (t?: Ticket) => {
+export const  cloneTicket = async (t?: Ticket) => {
     console.log("in clone api");
     if(typeof(t) != "undefined")
     {  

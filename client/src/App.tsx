@@ -2,6 +2,7 @@ import React from 'react';
 import './App.scss';
 import {createApiClient, Ticket, cloneTicket} from './api';
 import { parseConfigFileTextToJson } from 'typescript';
+import { TicketComponent } from './components/ticket';
 
 const { v4: uuidv4 } = require('uuid');
 
@@ -76,6 +77,7 @@ function showMoreOverflowCheck()
 	}
 }
 
+
 export class App extends React.PureComponent<{}, AppState> {
 	state: AppState = {
 		search: '',
@@ -84,26 +86,6 @@ export class App extends React.PureComponent<{}, AppState> {
 		currentPage: 1,
 		totalPages: 1,
 	}
-	
-
-	SVGComponent = () => (
-		<svg
-		  aria-hidden="true"
-		  focusable="false"
-		  data-prefix="far"
-		  data-icon="clone"
-		  className="svg-inline--fa fa-clone fa-w-16"
-		  role="img"
-		  width="12"
-		  viewBox="0 0 512 512"
-		>
-		  <path
-			fill="currentColor"
-			d="M464 0H144c-26.51 0-48 21.49-48 48v48H48c-26.51 0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h320c26.51 0 48-21.49 48-48v-48h48c26.51 0 48-21.49 48-48V48c0-26.51-21.49-48-48-48zM362 464H54a6 6 0 0 1-6-6V150a6 6 0 0 1 6-6h42v224c0 26.51 21.49 48 48 48h224v42a6 6 0 0 1-6 6zm96-96H150a6 6 0 0 1-6-6V54a6 6 0 0 1 6-6h308a6 6 0 0 1 6 6v308a6 6 0 0 1-6 6z"
-		  />
-		</svg>
-	  );
-
 
 	pinComponent = () => (
 		<svg
@@ -169,10 +151,10 @@ export class App extends React.PureComponent<{}, AppState> {
 			
 	}
 
-	clone = (id: string) => {
+	clone = async (id: string) => {
 
 		const toClone = this.state.tickets!.find((t) => t.id === id);
-		cloneTicket(toClone);
+		await cloneTicket(toClone);
 		this.reloadTickets();
 	}
 		
@@ -289,14 +271,60 @@ export class App extends React.PureComponent<{}, AppState> {
 		// this.prevPage();
 		showMoreOverflowCheck();
 	}
+
+
+	// search = () => new Promise<Ticket[]>;
+
+	search = (tickets: Ticket[]) => {
+
+		let searchKey = this.state.search.toLocaleLowerCase().trimStart();
+
+		if(searchKey.startsWith("before:") || searchKey.startsWith("after:") )
+		{
+			let temp  = searchKey.split(" ");
+			let dateKey = temp[0];
+			temp.shift();
+			searchKey = temp.join(" ");
+			temp = dateKey.split(":")
+			dateKey = temp[1];
+			let date = (new Date(Number(dateKey.split("/")[2]) , Number(dateKey.split("/")[1]), Number(dateKey.split("/")[0])).getTime())
+			let ticketAfterSearch = tickets.filter(
+				(t) => (((temp[0] === "before")? date > t.creationTime : date < t.creationTime) && 
+					((t.content.toLocaleLowerCase() + t.title.toLocaleLowerCase()).includes(searchKey))))
+			return ticketAfterSearch;
+		}
+
+		return tickets.filter((t) => (t.title.toLowerCase() + t.content.toLowerCase()).includes(this.state.search.toLowerCase()));;
+	}
 														
 	renderTickets = (tickets: Ticket[]) => {
-		const filteredTickets = tickets
-		.filter((t) => (t.title.toLowerCase() + t.content.toLowerCase()).includes(this.state.search.toLowerCase()));
+		// const filteredTickets = tickets
+		// .filter((t) => (t.title.toLowerCase() + t.content.toLowerCase()).includes(this.state.search.toLowerCase()));
+		const filteredTickets = this.search(tickets);
+
+		if(filteredTickets)
 		
 		return (<ul className='tickets'>
-			{ filteredTickets.filter((t) => (t.isPinned)).map((ticket) => this.ticketComponent(ticket))}
-			{ filteredTickets.filter((t) => (!t.isPinned)).map((ticket) => this.ticketComponent(ticket))}
+			{ filteredTickets.filter((t) => (t.isPinned)).map((ticket) => {
+				return <TicketComponent ticket={ticket} 
+										clone={this.clone}
+										fontsize={this.state.fontsize}
+										flipPin={this.flipPin}
+										showHide={showHide}
+										pinComponent={this.pinComponent}
+										unPinComponent={this.unPinComponent}
+										/>
+			})}
+			{ filteredTickets.filter((t) => (!t.isPinned)).map((ticket) => {
+				return <TicketComponent ticket={ticket} 
+				clone={this.clone}
+				fontsize={this.state.fontsize}
+				flipPin={this.flipPin}
+				showHide={showHide}
+				pinComponent={this.pinComponent}
+				unPinComponent={this.unPinComponent}
+				/>
+			})}
 		</ul>);
 	}
 	
@@ -342,29 +370,6 @@ export class App extends React.PureComponent<{}, AppState> {
 	
 	
 	
-	ticketComponent = (ticket: Ticket) => (
-	
-		<li key={ticket.id} id={ticket.id}  className='ticket'>
-			<nav>
-				<div className="column"><h5 className='title' style={{fontSize : this.state.fontsize}}>{ticket.title}</h5></div>
-				<div className="tooltip"><span className="tooltiptext">Clone</span><button className="clone" onClick={() => this.clone(ticket.id)}>{this.SVGComponent()}</button></div> 
-			</nav>
-			<p className='contentHide' id={ticket.id+"content"} style={{fontSize : this.state.fontsize -2}}>{ticket.content}</p>
-			<a href="#/" id={ticket.id+"contentshow"} className="show-more" style={{fontSize : this.state.fontsize-2}} onClick={(e: React.MouseEvent) => {showHide(ticket.id)}}>Show more</a>
-			<footer>
-				<div className='meta-data'style={{fontSize : this.state.fontsize - 4}}>
-					By <a href={"mailto:"+ticket.userEmail+"?subject=Answer from Wix"+"&body=We read the message you left us titled:\" " + ticket.title + "\""}>{ticket.userEmail}</a> | { new Date(ticket.creationTime).toLocaleString()}
-				</div> 
-				<div className="tooltippin">
-					<span className="tooltiptextpin">Pin</span>
-					<a href="#/" className='pinButton' onClick={(e: React.MouseEvent) => {this.flipPin(ticket.id)}}>{ticket.isPinned? this.pinComponent() : this.unPinComponent()}</a>
-				</div>
-			</footer>
-		</li>
-	
-	);
-	
-	
 	
 	onSearch = async (val: string, newPage?: number) => {
 		
@@ -405,7 +410,7 @@ export class App extends React.PureComponent<{}, AppState> {
 					<h3 id="noItemsToShow" style={{visibility: "hidden"}}>No more tickets to show! 🎉</h3>
 				</div>
 			</div>
-{/* 
+{/* 	
 			<div className="nav">
 			<div className="column">			
 			<button className="navButton" id="prevPage"  onClick={(e: React.MouseEvent) => {this.prevPage()}}  type="button">Previous Page</button>

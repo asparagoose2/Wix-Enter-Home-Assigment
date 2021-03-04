@@ -81,11 +81,11 @@ body {
 		color: black;
 	}
 	
-	.navButton:disabled
-	{
-		font-weight: normal;
-		color: #8b9ca5;
-	}
+	// .navButton:disabled
+	// {
+	// 	font-weight: normal;
+	// 	color: #8b9ca5;
+	// }
 
 	// .clone {
 	// 	display:inline-block;
@@ -273,6 +273,23 @@ body {
 		color: #7a92a5;
 	}
 
+
+	
+	.navButton {
+	background: #e69f43;
+	border-radius: 100px;
+	padding: 10px 30px;
+	color: #fff;
+	text-decoration: none;
+	font-size: 1em;
+	margin: 0 15px;
+	font-weight: bold;
+	}
+	
+	.navButton:hover { 
+		background: #ce9b59;
+	}
+	
 
 	h1 {
 		font-weight: 300;
@@ -549,3 +566,19 @@ body {
 
 
 
+
+
+.navButton {
+background: #a8a8a8;
+border-radius: 100px;
+padding: 10px 30px;
+color: #fff;
+text-decoration: none;
+font-size: 1em;
+margin: 0 15px;
+font-weight: bold;
+}
+
+.navButton:hover { 
+	background: #7e7e7e;
+}

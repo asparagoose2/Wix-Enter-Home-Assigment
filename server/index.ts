@@ -50,7 +50,7 @@ app.post(APIPath,(req, res) => {
 
 
   // res.send(paginatedData);
-  // res.send(resp);
+  res.send();
 });
 
 app.listen(serverAPIPort);
