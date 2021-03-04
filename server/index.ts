@@ -25,9 +25,10 @@ app.get(APIPath, (req, res) => {
   // @ts-ignore
   const page: number = req.query.page || 1;
   console.log("GET");
-  const paginatedData = tempData.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
-  const totalPages = tempData.length;
-  const resp = {"tickets": paginatedData,"len": tempData.length}
+  const paginatedData = tempData.slice(0, page * PAGE_SIZE);
+  // const paginatedData = tempData.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const totalPages = Math.ceil(tempData.length/PAGE_SIZE);
+  const resp = {"tickets": paginatedData,"len": tempData.length, "pages": totalPages}
 
   // res.send(paginatedData);
   res.send(resp);

@@ -16,6 +16,7 @@ export type Ticket = {
 export type ApiClient = {
     getTickets: (page?: Number) => Promise<Ticket[]>;
     totalTickets: () => Promise<number>;
+    numOfPages: () => Promise<number>;
 }
 
 export const cloneTicket = (t?: Ticket) => {
@@ -41,6 +42,9 @@ export const createApiClient = (): ApiClient => {
         },
         totalTickets: () => {
             return axios.get(APIRootPath).then((res) => res.data["len"]);
+        },
+        numOfPages: () => {
+            return axios.get(APIRootPath).then((res) => res.data["pages"]);
         }
     }
 }

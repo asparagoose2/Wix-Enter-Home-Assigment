@@ -80,6 +80,7 @@ body {
 		font-weight: bold;
 		color: black;
 	}
+	
 	.navButton:disabled
 	{
 		font-weight: normal;
@@ -284,6 +285,9 @@ body {
 		font-size: 12px;
 		margin: 12px 5px;
 	}
+	#noItemsToShow{
+		color: #ffffff;
+	}
 
 	header {
 		width: 100%;
@@ -435,9 +439,17 @@ body {
 // }
 
 
+#loadMore{
+	margin: auto;
+ 	width: 100%;
+  	text-align: center;
+}
 
-
-
+#noItemsToShow{
+	margin: auto;
+ 	width: 100%;
+  	text-align: center;
+}
 
 
 .nav{
@@ -534,4 +546,6 @@ body {
   .slider.round:before {
 	border-radius: 50%;
   }
+
+
 
