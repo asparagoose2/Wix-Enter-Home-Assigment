@@ -18,10 +18,18 @@ export type ApiClient = {
     totalTickets: () => Promise<number>;
 }
 
-export const cloneTicket = (ticket: Ticket) => {
-    var newTicket = Object.assign({},ticket);
-    newTicket.id = uuidv4();
-    return newTicket;
+export const cloneTicket = (t?: Ticket) => {
+    console.log("in clone api");
+    if(typeof(t) != "undefined")
+    {  
+        console.log("sending POST");
+        axios.post(APIRootPath, {ticket: t});
+    }
+    console.log("returning from api"); 
+    // var newTicket = Object.assign({},t);
+    // newTicket.id = uuidv4();
+    
+    // return newTicket;
 } 
 
 export const createApiClient = (): ApiClient => {

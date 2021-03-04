@@ -108,6 +108,23 @@ export class App extends React.PureComponent<{}, AppState> {
 		</svg>
 	  );
 
+	clone = (id: string) => {
+		const toClone = this.state.tickets!.find((t)=> t.id === id);
+		console.log("cloning: ",toClone);
+		cloneTicket(toClone);
+		console.log("updating");
+		this.forceUpdate();
+		this.reloadTickets();
+
+	}
+
+	async reloadTickets() {
+		console.log("reloading tickets");
+		this.setState({
+			tickets: await api.getTickets(this.state.currentPage)
+		})
+		await this.forceUpdate();
+	}
 
 
 
@@ -124,6 +141,7 @@ export class App extends React.PureComponent<{}, AppState> {
 	}
 
 	componentDidUpdate () {
+		console.log("did update");
 		showMoreOverflowCheck();
 	}
 
@@ -215,6 +233,7 @@ export class App extends React.PureComponent<{}, AppState> {
 	}
 
 	renderTickets = (tickets: Ticket[]) => {
+		// cloneTicket(this.state.tickets![0]);
 		const filteredTickets = tickets
 			.filter((t) => (t.title.toLowerCase() + t.content.toLowerCase()).includes(this.state.search.toLowerCase()));
 
@@ -235,7 +254,7 @@ export class App extends React.PureComponent<{}, AppState> {
 			{filteredTickets.filter((t) => (!t.isPinned)).map((ticket) => (<li key={ticket.id} id={ticket.id} className='ticket'>
 				<nav>
 				<div className="column"><h5 className='title' style={{fontSize : this.state.fontsize}}>{ticket.title}</h5></div>
-				<div className="tooltip"><span className="tooltiptext">Clone</span><button className="clone">{this.SVGComponent()}</button></div> </nav>
+				<div className="tooltip"><span className="tooltiptext">Clone</span><button className="clone" onClick={() => this.clone(ticket.id)}>{this.SVGComponent()}</button></div> </nav>
 				<p className='contentHide' id={ticket.id+"content"}  style={{fontSize : this.state.fontsize-2}}>{ticket.content}</p>
 				{/* <a href="#" className="show-more" onClick={(e: React.MouseEvent) => {document.getElementById(ticket.id)!.classList.add("contentShow"); document.getElementById(ticket.id)!.classList.remove("contentHide")}}>Show more</a> */}
 				<a href="#/" id={ticket.id+"contentshow"} className="show-more" style={{fontSize : this.state.fontsize-2}} onClick={(e: React.MouseEvent) => {showHide(ticket.id)}}>Show more</a>
