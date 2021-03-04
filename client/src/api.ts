@@ -19,18 +19,8 @@ export type ApiClient = {
     numOfPages: () => Promise<number>;
 }
 
-export const  cloneTicket = async (t?: Ticket) => {
-    console.log("in clone api");
-    if(typeof(t) != "undefined")
-    {  
-        console.log("sending POST");
-        axios.post(APIRootPath, {ticket: t});
-    }
-    console.log("returning from api"); 
-    // var newTicket = Object.assign({},t);
-    // newTicket.id = uuidv4();
-    
-    // return newTicket;
+export const  cloneTicket = async (t: Ticket) => {
+    await axios.post(APIRootPath, {ticket: t});
 } 
 
 export const createApiClient = (): ApiClient => {
@@ -48,15 +38,3 @@ export const createApiClient = (): ApiClient => {
         }
     }
 }
-
-
-// export const nextPage = () :ApiClient => {
-
-//     axios.request
-
-//     return {
-//         getTickets: () => {
-//             return axios.get(APIRootPath,).then((res) => res.data);
-//         }
-//     }
-// }
