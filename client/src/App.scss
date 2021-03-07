@@ -81,29 +81,6 @@ body {
 		color: black;
 	}
 	
-	// .navButton:disabled
-	// {
-	// 	font-weight: normal;
-	// 	color: #8b9ca5;
-	// }
-
-	// .clone {
-	// 	display:inline-block;
-	// 	padding:0.2em 1em;
-	// 	// border:0.10em solid #000000;
-	// 	margin:.8em 0.3em 0.3em 0;
-	// 	box-sizing: border-box;
-	// 	text-decoration:none;
-	// 	// text-transform:uppercase;
-	// 	font-family:'Roboto',sans-serif;
-	// 	font-weight:400;
-	// 	color:#000000;
-	// 	text-align:center;
-	// 	transition: all 0.15s;
-	// 	}
-	// .clone:hover{
-	// 	color: #a0a0a0;
-	// }
 	.tooltip {
 		position: relative;
 		display: inline-block;
@@ -120,13 +97,10 @@ body {
 		border-radius: 6px;
 		padding: 3px 0;
 		width: 50px;
-  		// bottom: 100%;
-  		// left: 50%;
 		font-size: 12px;
-  		margin-left: -30px; /* Use half of the width (120/2 = 60), to center the tooltip */
+  		margin-left: -30px; 
 		margin-top: 18px;
 	  
-		/* Position the tooltip */
 		position: absolute;
 		z-index: 1;
 	  }
@@ -149,13 +123,10 @@ body {
 		border-radius: 6px;
 		padding: 3px 0;
 		width: 50px;
-  		// bottom: 100%;
-  		// left: 50%;
 		font-size: 12px;
-  		margin-left: -30px; /* Use half of the width (120/2 = 60), to center the tooltip */
+  		margin-left: -30px; 
 		margin-top: 2px;
 	  
-		/* Position the tooltip */
 		position: absolute;
 		z-index: 1;
 	  }
@@ -324,7 +295,7 @@ body {
 			width: 100%;
 			text-overflow: ellipsis;
 			display: inline-block;
-			color: #20455e;
+			color: #9199a1;
 			background-color: #090A11;
 			font-size: 14px;
 			outline: 0;
@@ -339,6 +310,7 @@ body {
 		}
 	}
 
+	
 	button {
 		border: transparent;
 		background: transparent;
